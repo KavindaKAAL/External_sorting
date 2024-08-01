@@ -365,39 +365,11 @@ int main() {
     string inputFile = "random_numbers.bin";
     string outputFile = "sorted_numbers.bin";
 
+    // generate random numbers
     generateRandomNumbers(inputFile);
 
+    // external sorting
     externalSort(inputFile, outputFile);
-
-    vector<int> num1;
-    vector<int> num2;
-
-    readBinaryFile(inputFile,num1);
-    readBinaryFile(outputFile,num2);
-    cout<<"generated: "<<num1.size()<<endl;
-    num1.clear();
-
-    cout<<"sorted: "<<num2.size()<<endl;
-
-    int b = INT_MIN;
-    bool f = true;
-    cout<< num2[0]<<" "<< num2[num2.size()-1]<<endl;
-    for(int i=0;i<num2.size();i++){
-        if(num2[i]<b){
-            cout<<"something went wrong"<<endl;
-            cout<< "index: "<<i<<"  "<<num2[i]<< " < "<<b<<endl;
-            f=false;
-            break;
-        }
-        b=num2[i];
-
-    };
-    if(f){
-        cout<<"successYo"<<endl;
-    }
-    num2.clear();
-
-    cout<<"No errors bro"<<endl;
 
     return 0;
 };
@@ -468,6 +440,12 @@ void externalSort(const string &inputFile, const string &outputFile){
     // End time measurement
     auto end = high_resolution_clock::now();
 
+    out.close();
+
+    // Clean up memory (the destructor will be called automatically)
+    delete root;  // This will recursively delete the entire tree
+
+
     // Calculate duration
     auto duration = duration_cast<microseconds>(end - start);
     auto seconds = duration_cast<std::chrono::seconds>(duration).count();
@@ -475,18 +453,12 @@ void externalSort(const string &inputFile, const string &outputFile){
     auto hours = duration_cast<std::chrono::hours>(duration).count();
 
     // Print the duration
-    cout << "Sorting completed in "
+    cout << "External sorting completed in "
          << hours << " hours "
          << (minutes % 60) << " minutes "
          << (seconds % 60) << " seconds "
          << (duration.count() % 1000000) << " microseconds." << endl;
 
-    out.close();
-
-    // Clean up memory (the destructor will be called automatically)
-    delete root;  // This will recursively delete the entire tree
-
-    cout<<"External sorting completed"<<endl;
 }
 
 
